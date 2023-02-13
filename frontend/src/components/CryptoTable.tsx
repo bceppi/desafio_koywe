@@ -56,7 +56,6 @@ export const CryptoTable = () => {
         Here at Koywe we focus on markets where technology, innovation, and
         capital can unlock long-term value and drive economic growth.
       </p>
-
       <div className="hidden md:block">
         <div className="relative border rounded-lg text-gray-600 focus-within:text-gray-400 mb-2">
           <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -82,48 +81,50 @@ export const CryptoTable = () => {
             onChange={handleOnChange}
           />
         </div>
-        <table className="table-auto text-sm text-gray-600 dark:text-gray-600 w-full">
-          <thead>
-            <tr className="pd-3">
-              <th className="border border-slate-600 px-5 py-4 ">Logo</th>
-              <th className="border border-slate-600 px-5 py-4 ">Nombre</th>
-              <th className="border border-slate-600 px-5 py-4">ID</th>
-              <th className="border border-slate-600 px-5 py-4 ">
-                Precio Actual (USD)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {coins
-              .filter(
-                (coin) =>
-                  coin.lower_name.includes(filter) ||
-                  coin.symbol.includes(filter)
-              )
-              .map((coin, key) => (
-                <tr key={key}>
-                  <td className="border border-slate-600 py-4">
-                    <img
-                      className="mx-auto"
-                      src={coin.image.thumb}
-                      alt={`${coin.name} logo`}
-                    />
-                  </td>
-                  <td className="border border-slate-600 px-5 py-4">
-                    {coin.name}
-                  </td>
-                  <td className="border border-slate-600 px-5 py-4">
-                    {coin.symbol}
-                  </td>
-                  <td className="border border-slate-600 px-5 py-4">
-                    {currencyFormatter.format(
-                      coin.market_data.current_price.usd
-                    )}
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        <div className="border rounded-lg">
+          <table className="table-auto text-sm text-gray-600 dark:text-gray-600 w-full">
+            <thead>
+              <tr className="pd-3">
+                <th className="border-r border-b px-5 py-4 ">Logo</th>
+                <th className="border-r border-b px-5 py-4 ">Nombre</th>
+                <th className="border-r border-b px-5 py-4">ID</th>
+                <th className="border-r border-b px-5 py-4 ">
+                  Precio Actual (USD)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {coins
+                .filter(
+                  (coin) =>
+                    coin.lower_name.includes(filter) ||
+                    coin.symbol.includes(filter)
+                )
+                .map((coin, key) => (
+                  <tr key={key} className="">
+                    <td className="border-r border-b py-4 ">
+                      <img
+                        className="mx-auto"
+                        src={coin.image.thumb}
+                        alt={`${coin.name} logo`}
+                      />
+                    </td>
+                    <td className="border-r border-b px-5 py-4 ">
+                      {coin.name}
+                    </td>
+                    <td className="border-r border-b px-5 py-4 ">
+                      {coin.symbol}
+                    </td>
+                    <td className="border-b px-5 py-4 ">
+                      {currencyFormatter.format(
+                        coin.market_data.current_price.usd
+                      )}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
