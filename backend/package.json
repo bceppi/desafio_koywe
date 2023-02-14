@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "koa": "^2.14.1",
+    "koa-json": "^2.0.2",
+    "koa-router": "^12.0.0",
+    "node-fetch": "^3.3.0",
+    "nodemon": "^2.0.20"
+  }
+}
