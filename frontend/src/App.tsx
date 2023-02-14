@@ -1,13 +1,13 @@
 import React from "react";
 import "./App.css";
 import { Container } from "./components/Container";
-import { CryptoTable } from "./components/CryptoTable";
+import { Landing } from "./components/Landing";
 
 function App() {
   return (
     <div className="App">
       <Container>
-        <CryptoTable />
+        <Landing />
       </Container>
     </div>
   );
