@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Coin } from "./Landing";
+import Fuse from "fuse.js";
 
 interface TableProps {
   coins: Coin[];
@@ -10,10 +11,23 @@ export const CryptoTable: React.FC<TableProps> = ({
   coins,
   currencyFormatter,
 }) => {
-  const [filter, setFilter] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<Coin[]>(coins);
+
+  const searchOptions = {
+    threshold: 0.3,
+    keys: ["name", "symbol"],
+  };
+
+  const fuse = new Fuse(coins, searchOptions);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilter(e.target.value.toLowerCase());
+    if (!e.target.value) {
+      setSearchResults(coins);
+    } else {
+      setSearchResults(
+        fuse.search(e.target.value).map((result) => result.item)
+      );
+    }
   };
 
   return (
@@ -68,35 +82,36 @@ export const CryptoTable: React.FC<TableProps> = ({
             </tr>
           </thead>
           <tbody>
-            {coins
-              .filter(
-                (coin) =>
-                  coin.lower_name.includes(filter) ||
-                  coin.symbol.includes(filter)
-              )
-              .map((coin, key) => (
-                <tr key={key} className="">
-                  <td className="border-r border-b py-4 ">
-                    <img
-                      className="mx-auto"
-                      src={coin.image.thumb}
-                      alt={`${coin.name} logo`}
-                    />
-                  </td>
-                  <td className="border-r border-b px-5 py-4 ">{coin.name}</td>
-                  <td className="border-r border-b px-5 py-4 ">
-                    {coin.symbol}
-                  </td>
-                  <td className="border-b px-5 py-4 ">
-                    {currencyFormatter.format(
-                      coin.market_data.current_price.usd
-                    )}
-                  </td>
-                </tr>
-              ))}
+            <Rows coins={searchResults} currencyFormatter={currencyFormatter} />
           </tbody>
         </table>
       </div>
     </div>
+  );
+};
+
+const Rows: React.FC<{
+  coins: Coin[];
+  currencyFormatter: Intl.NumberFormat;
+}> = ({ coins, currencyFormatter }) => {
+  return (
+    <>
+      {coins.map((coin, key) => (
+        <tr key={key} className="">
+          <td className="border-r border-b py-4 ">
+            <img
+              className="mx-auto"
+              src={coin.image.thumb}
+              alt={`${coin.name} logo`}
+            />
+          </td>
+          <td className="border-r border-b px-5 py-4 ">{coin.name}</td>
+          <td className="border-r border-b px-5 py-4 ">{coin.symbol}</td>
+          <td className="border-b px-5 py-4 ">
+            {currencyFormatter.format(coin.market_data.current_price.usd)}
+          </td>
+        </tr>
+      ))}
+    </>
   );
 };
