@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Coin } from "./Landing";
 import Fuse from "fuse.js";
 
@@ -19,6 +19,8 @@ export const CryptoTable: React.FC<TableProps> = ({
   };
 
   const fuse = new Fuse(coins, searchOptions);
+
+  useEffect(() => setSearchResults(coins), [coins]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.value) {
