@@ -25,6 +25,7 @@ type Price = {
 
 export const Landing = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
+  const [fetchError, setFetchError] = useState<boolean>(false);
 
   const getCoins = () => {
     let url = "https://api.coingecko.com/api/v3/coins/";
@@ -34,7 +35,8 @@ export const Landing = () => {
         setCoins(
           data.map((coin) => ({ ...coin, lower_name: coin.name.toLowerCase() }))
         );
-      });
+      })
+      .catch((e) => setFetchError(true));
   };
 
   const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -52,8 +54,17 @@ export const Landing = () => {
       <p className="mb-6 text-sm font-normal text-gray-500 md:text-lg lg:text-xl dark:text-gray-400">
         Building the next generation of payments.
       </p>
-      <Calculator coins={coins} currencyFormatter={currencyFormatter} />
-      <CryptoTable coins={coins} currencyFormatter={currencyFormatter} />
+      {fetchError ? (
+        <p>
+          Hubo un error en cargar la aplicación, por favor intenta nuevamente
+          más tarde.
+        </p>
+      ) : (
+        <>
+          <Calculator coins={coins} currencyFormatter={currencyFormatter} />
+          <CryptoTable coins={coins} currencyFormatter={currencyFormatter} />
+        </>
+      )}
     </div>
   );
 };
