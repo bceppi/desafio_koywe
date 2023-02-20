@@ -4,7 +4,7 @@ import { router } from "./routes";
 
 const app = new Koa();
 
-let PORT = 3000;
+let PORT = 4000;
 
 app.use(json());
 app.use(router.routes());
